@@ -10,7 +10,7 @@ import { KeyIcon } from './components/ui/Icons';
 
 type AuthState = 'login' | 'register' | 'authenticated';
 
-// Check for API Key at the top level
+// Check for API Key at the top level using Vite's import.meta.env
 const API_KEY = import.meta.env.VITE_API_KEY;
 
 const App: React.FC = () => {
@@ -20,26 +20,27 @@ const App: React.FC = () => {
 
     if (!API_KEY) {
         return (
-            <div className="min-h-screen flex items-center justify-center bg-background p-4 text-text-primary">
-                <div className="w-full max-w-md p-8 text-center space-y-4 bg-surface rounded-2xl shadow-lg border border-surface-accent">
-                    <KeyIcon className="w-12 h-12 mx-auto text-negative" />
-                    <h2 className="text-2xl font-bold">API Key Missing</h2>
-                    <p className="text-text-secondary">
-                        The VITE_API_KEY environment variable is not set. Please add it to your Vercel project settings and redeploy.
-                    </p>
-                    <a 
-                        href="https://vercel.com/docs/projects/environment-variables" 
-                        target="_blank" 
-                        rel="noopener noreferrer"
-                        className="inline-block mt-2 text-primary hover:underline"
-                    >
-                        Learn how to add environment variables on Vercel
-                    </a>
+            <ThemeProvider>
+                <div className="min-h-screen flex items-center justify-center bg-background p-4 text-text-primary">
+                    <div className="w-full max-w-md p-8 text-center space-y-4 bg-surface rounded-2xl shadow-lg border border-surface-accent">
+                        <KeyIcon className="w-12 h-12 mx-auto text-negative" />
+                        <h2 className="text-2xl font-bold">API Key Missing</h2>
+                        <p className="text-text-secondary">
+                            The VITE_API_KEY environment variable is not set. Please add it to your Vercel project settings and redeploy.
+                        </p>
+                        <a 
+                            href="https://vercel.com/docs/projects/environment-variables" 
+                            target="_blank" 
+                            rel="noopener noreferrer"
+                            className="inline-block mt-2 text-primary hover:underline"
+                        >
+                            Learn how to add environment variables on Vercel
+                        </a>
+                    </div>
                 </div>
-            </div>
+            </ThemeProvider>
         );
     }
-
 
     const handleLogin = (user: User) => {
         setCurrentUser(user);
