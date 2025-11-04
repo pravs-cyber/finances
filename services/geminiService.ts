@@ -1,12 +1,13 @@
 import { GoogleGenAI, GenerateContentResponse, Type, FunctionDeclaration } from "@google/genai";
 import { ChatMessage, GeminiModel, Transaction, Investment, Budget, Goal, TransactionType, Category } from '../types';
 
-// This is a placeholder check. In a real environment, the key would be set.
-if (!process.env.API_KEY) {
-    console.warn("API_KEY environment variable not set. Gemini API calls may fail.");
+// Use Vite's import.meta.env to access the API key securely.
+const apiKey = import.meta.env.VITE_API_KEY;
+if (!apiKey) {
+    console.warn("VITE_API_KEY environment variable not set. Gemini API calls may fail.");
 }
 
-const getAiClient = () => new GoogleGenAI({ apiKey: process.env.API_KEY! });
+const getAiClient = () => new GoogleGenAI({ apiKey: apiKey! });
 
 export const addTransactionTool: FunctionDeclaration = {
     name: "addTransaction",
