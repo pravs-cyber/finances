@@ -1,4 +1,57 @@
-# Environment variables
+# -------------------------------------------------------------------
+# 1. DEPENDENCIES AND BUILD ARTIFACTS
+# -------------------------------------------------------------------
+
+# Node modules directory
+/node_modules
+
+# Build output folder (usually created by 'npm run build' or 'vite build')
+/dist
+/build
+/out
+
+# Vite specific cache/temp files
+.vite/
+.vite-inspect/
+# -------------------------------------------------------------------
+# 2. ENVIRONMENT FILES (CRITICAL SECURITY)
+# -------------------------------------------------------------------
+
+# Local environment variables containing secrets like VITE_API_KEY
+# These MUST NOT be committed to GitHub.
 .env
 .env.local
 .env.*.local
+.env.development
+.env.test
+# -------------------------------------------------------------------
+# 3. LOGS, CACHE, AND OS FILES
+# -------------------------------------------------------------------
+
+# Runtime log files
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+# Yarn/pnpm cache
+/yarn-error.log
+/pnpm-debug.log
+
+# Operating System files
+.DS_Store
+Thumbs.db
+# -------------------------------------------------------------------
+# 4. IDE and Editor Directories
+# -------------------------------------------------------------------
+
+# VS Code files
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+
+# JetBrains/WebStorm/etc. IDE files
+.idea
