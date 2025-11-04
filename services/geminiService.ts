@@ -2,12 +2,19 @@ import { GoogleGenAI, GenerateContentResponse, Type, FunctionDeclaration } from 
 import { ChatMessage, GeminiModel, Transaction, Investment, Budget, Goal, TransactionType, Category } from '../types';
 
 // Use Vite's import.meta.env to access the API key securely.
+// This variable will be 'undefined' if VITE_API_KEY is not set in the .env file.
 const apiKey = import.meta.env.VITE_API_KEY;
-if (!apiKey) {
-    console.warn("VITE_API_KEY environment variable not set. Gemini API calls may fail.");
-}
 
-const getAiClient = () => new GoogleGenAI({ apiKey: apiKey! });
+const getAiClient = () => {
+    // 💥 FIX FOR Uncaught TypeError: Cannot read properties of undefined 💥
+    if (!apiKey) {
+        throw new Error(
+            "FATAL: VITE_API_KEY environment variable is not set. Please check your .env.local file and restart the server."
+        );
+    }
+    // If the apiKey exists, safely create and return the client instance
+    return new GoogleGenAI({ apiKey });
+};
 
 export const addTransactionTool: FunctionDeclaration = {
     name: "addTransaction",
@@ -94,11 +101,11 @@ export const parseDataFromTextFile = async (fileContent: string): Promise<Partia
         2.  **Date:** Standardize all dates to YYYY-MM-DD format.
         3.  **Description:** Find the most likely description column.
         4.  **Amount & Type:**
-            *   There might be separate 'debit' and 'credit' columns, or a single 'amount' column.
-            *   If there's one amount column, negative values are 'expense', positive are 'income'.
-            *   If there are debit/credit columns, use the appropriate value and set the type to 'expense' for debits and 'income' for credits.
-            *   The final 'amount' in the JSON should ALWAYS be a positive number.
-        
+            * There might be separate 'debit' and 'credit' columns, or a single 'amount' column.
+            * If there's one amount column, negative values are 'expense', positive are 'income'.
+            * If there are debit/credit columns, use the appropriate value and set the type to 'expense' for debits and 'income' for credits.
+            * The final 'amount' in the JSON should ALWAYS be a positive number.
+            
         Return a valid JSON array of objects. Each object must have 'date', 'description', 'amount', and 'type' keys. If you cannot determine a value for a required field in a row, skip that row.
 
         Content:
@@ -152,7 +159,7 @@ export const parseDataFromXlsxFile = async (base64Content: string): Promise<Part
         2.  **Infer Columns:** Identify columns for date, description, and amount. Debit/credit might be in separate columns.
         3.  **Date:** Standardize dates to YYYY-MM-DD format.
         4.  **Amount & Type:** Determine the transaction type ('income' or 'expense') and ensure the final 'amount' is a positive number.
-        
+            
         Return a valid JSON array of transaction objects. Each object must have 'date', 'description', 'amount', and 'type' keys. Skip any invalid rows.
     `;
     try {
@@ -223,7 +230,7 @@ export const analyzeSpending = async (transactions: Transaction[], categories: {
         });
         return response.text;
     } catch (error)
- {
+    {
         console.error("Error analyzing spending:", error);
         throw new Error("AI analysis failed. Please try again later.");
     }
@@ -403,7 +410,7 @@ export const parseTransactionsFromImage = async (
         2. 'amount': The total cost, as a positive number.
         3. 'date': The date of the transaction in YYYY-MM-DD format. If no date is found, use today's date: ${new Date().toISOString().split('T')[0]}.
         4. 'categoryId': Based on the description, find the MOST appropriate category ID from the list provided below.
-        
+            
         User's Categories:
         ---
         ${JSON.stringify(categories.map(c => ({ id: c.id, name: c.name, type: c.type })))}
