@@ -1,4 +1,9 @@
-import { GoogleGenAI, GenerateContentResponse, Type, FunctionDeclaration } from "@google/genai";
+import {
+  GoogleGenerativeAI,
+  GenerateContentResponse,
+  Content,
+  FunctionDeclaration,
+} from "@google/generative-ai";
 import { ChatMessage, GeminiModel, Transaction, Investment, Budget, Goal, TransactionType, Category } from '../types';
 
 // Use Vite's import.meta.env to access the API key securely.
@@ -7,37 +12,22 @@ if (!apiKey) {
     console.warn("VITE_API_KEY environment variable not set. Gemini API calls may fail.");
 }
 
-const getAiClient = () => new GoogleGenAI({ apiKey: apiKey! });
+const getAiClient = () => new GoogleGenerativeAI(apiKey!);
 
 export const addTransactionTool: FunctionDeclaration = {
-    name: "addTransaction",
-    description: "Adds a new income or expense transaction to the user's financial records.",
-    parameters: {
-        type: Type.OBJECT,
-        properties: {
-            description: {
-                type: Type.STRING,
-                description: "The description of the transaction (e.g., 'Groceries', 'Monthly Salary')."
-            },
-            amount: {
-                type: Type.NUMBER,
-                description: "The numerical amount of the transaction. Must be a positive number."
-            },
-            type: {
-                type: Type.STRING,
-                description: "The type of transaction, must be either 'income' or 'expense'."
-            },
-            categoryId: {
-                type: Type.STRING,
-                description: "The ID of the category this transaction belongs to."
-            },
-            date: {
-                type: Type.STRING,
-                description: "The date of the transaction in YYYY-MM-DD format. If not provided, use today's date."
-            }
-        },
-        required: ["description", "amount", "type", "categoryId"]
-    }
+  name: "addTransaction",
+  description: "Adds a new income or expense transaction to the user's financial records.",
+  parameters: {
+    type: "object",
+    properties: {
+      description: { type: "string" },
+      amount: { type: "number" },
+      type: { type: "string" },
+      categoryId: { type: "string" },
+      date: { type: "string" }
+    },
+    required: ["description", "amount", "type", "categoryId"]
+  }
 };
 
 interface GenerateChatResponseConfig {
@@ -115,14 +105,14 @@ export const parseDataFromTextFile = async (fileContent: string): Promise<Partia
             config: {
                 responseMimeType: "application/json",
                 responseSchema: {
-                    type: Type.ARRAY,
+                    type: "array",
                     items: {
-                        type: Type.OBJECT,
+                        type: "object",
                         properties: {
-                            date: { type: Type.STRING, description: "Transaction date in YYYY-MM-DD format" },
-                            description: { type: Type.STRING, description: "Transaction description" },
-                            amount: { type: Type.NUMBER, description: "Transaction amount (always positive)" },
-                            type: { type: Type.STRING, description: "Either 'income' or 'expense'" }
+                            date: { type: "string", description: "Transaction date in YYYY-MM-DD format" },
+                            description: { type: "string", description: "Transaction description" },
+                            amount: { type: "number", description: "Transaction amount (always positive)" },
+                            type: { type: "string", description: "Either 'income' or 'expense'" }
                         },
                         required: ["date", "description", "amount", "type"]
                     }
@@ -173,14 +163,14 @@ export const parseDataFromXlsxFile = async (base64Content: string): Promise<Part
             config: {
                 responseMimeType: "application/json",
                 responseSchema: {
-                    type: Type.ARRAY,
+                    type: "array",
                     items: {
-                        type: Type.OBJECT,
+                        type: "object",
                         properties: {
-                            date: { type: Type.STRING },
-                            description: { type: Type.STRING },
-                            amount: { type: Type.NUMBER },
-                            type: { type: Type.STRING }
+                            date: { type: "string" },
+                            description: { type: "string" },
+                            amount: { type: "number" },
+                            type: { type: "string" }
                         },
                         required: ["date", "description", "amount", "type"]
                     }
@@ -361,9 +351,9 @@ export const suggestCategoryForTransaction = async (description: string, categor
             config: {
                 responseMimeType: "application/json",
                 responseSchema: {
-                    type: Type.OBJECT,
+                    type: "object",
                     properties: {
-                        categoryId: { type: Type.STRING }
+                        categoryId: { type: "string" }
                     },
                     required: ["categoryId"]
                 }
@@ -426,14 +416,14 @@ export const parseTransactionsFromImage = async (
             config: {
                 responseMimeType: "application/json",
                 responseSchema: {
-                    type: Type.ARRAY,
+                    type: "array",
                     items: {
-                        type: Type.OBJECT,
+                        type: "object",
                         properties: {
-                            description: { type: Type.STRING },
-                            amount: { type: Type.NUMBER },
-                            date: { type: Type.STRING },
-                            categoryId: { type: Type.STRING }
+                            description: { type: "string" },
+                            amount: { type: "number" },
+                            date: { type: "string" },
+                            categoryId: { type: "string" }
                         },
                         required: ["description", "amount", "date", "categoryId"]
                     }
