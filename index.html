@@ -7,90 +7,23 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
-    <script src="https://cdn.tailwindcss.com"></script>
-    <style>
-        :root {
-            --color-primary: #7F56D9;
-            --color-primary-hover: #6941C6;
-            --color-background: #F9FAFB;
-            --color-surface: #FFFFFF;
-            --color-surface-accent: #F2F4F7;
-            --color-text-primary: #101828;
-            --color-text-secondary: #667085;
-            --color-positive: #12B76A;
-            --color-negative: #F04438;
-            --color-warning: #F79009;
-            --chart-tooltip-bg: var(--color-surface);
-            --chart-tooltip-border: var(--color-surface-accent);
-            --chart-axis-stroke: var(--color-text-secondary);
-        }
-        .dark {
-            --color-primary: #7F56D9;
-            --color-primary-hover: #9E77ED;
-            --color-background: #101828;
-            --color-surface: #1D2939;
-            --color-surface-accent: #344054;
-            --color-text-primary: #F2F4F7;
-            --color-text-secondary: #98A2B3;
-            --color-positive: #12B76A;
-            --color-negative: #F04438;
-            --color-warning: #F79009;
-            --chart-tooltip-bg: var(--color-surface);
-            --chart-tooltip-border: var(--color-surface-accent);
-            --chart-axis-stroke: var(--color-text-secondary);
-        }
-    </style>
-    <script>
-        tailwind.config = {
-            darkMode: 'class',
-            theme: {
-                extend: {
-                    fontFamily: {
-                        sans: ['Inter', 'sans-serif'],
-                    },
-                    colors: {
-                        'primary': 'var(--color-primary)',
-                        'primary-hover': 'var(--color-primary-hover)',
-                        'background': 'var(--color-background)',
-                        'surface': 'var(--color-surface)',
-                        'surface-accent': 'var(--color-surface-accent)',
-                        'text-primary': 'var(--color-text-primary)',
-                        'text-secondary': 'var(--color-text-secondary)',
-                        'positive': 'var(--color-positive)',
-                        'negative': 'var(--color-negative)',
-                        'warning': 'var(--color-warning)',
-                    },
-                    keyframes: {
-                        'fade-in': {
-                            '0%': { opacity: '0' },
-                            '100%': { opacity: '1' },
-                        },
-                        'fade-in-up': {
-                            '0%': { opacity: '0', transform: 'translateY(10px)' },
-                            '100%': { opacity: '1', transform: 'translateY(0)' },
-                        },
-                    },
-                    animation: {
-                        'fade-in': 'fade-in 0.5s ease-out',
-                        'fade-in-up': 'fade-in-up 0.5s ease-out forwards',
-                    },
-                }
-            }
-        }
-    </script>
 <script type="importmap">
 {
   "imports": {
-    "react/": "https://aistudiocdn.com/react@^19.2.0/",
     "react": "https://aistudiocdn.com/react@^19.2.0",
     "react-dom/": "https://aistudiocdn.com/react-dom@^19.2.0/",
+    "react/": "https://aistudiocdn.com/react@^19.2.0/",
     "@google/genai": "https://aistudiocdn.com/@google/genai@^1.28.0",
-    "recharts": "https://aistudiocdn.com/recharts@^3.3.0"
+    "recharts": "https://aistudiocdn.com/recharts@^3.3.0",
+    "vite": "https://aistudiocdn.com/vite@^7.1.12",
+    "@vitejs/plugin-react": "https://aistudiocdn.com/@vitejs/plugin-react@^5.1.0",
+    "path": "https://aistudiocdn.com/path@^0.12.7"
   }
 }
 </script>
 </head>
 <body class="bg-background text-text-primary">
     <div id="root"></div>
+    <script type="module" src="/src/index.tsx"></script>
 </body>
 </html>
