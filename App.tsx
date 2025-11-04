@@ -10,19 +10,6 @@ import { ThemeProvider } from './contexts/ThemeContext';
 type AuthState = 'login' | 'register' | 'authenticated';
 
 const App: React.FC = () => {
-    // Vite uses import.meta.env for environment variables
-    if (!import.meta.env.VITE_API_KEY) {
-        return (
-            <div className="min-h-screen flex items-center justify-center bg-red-100 text-red-800 p-4 font-sans">
-                <div className="text-center bg-white p-8 rounded-lg shadow-md border border-red-200">
-                    <h1 className="text-2xl font-bold">Configuration Error</h1>
-                    <p className="mt-2">The Gemini API key is missing.</p>
-                    <p className="mt-1 text-sm text-gray-600">Please set the <code className="bg-red-100 p-1 rounded">VITE_API_KEY</code> environment variable in your Vercel project settings.</p>
-                </div>
-            </div>
-        );
-    }
-
     const [users, setUsers] = useLocalStorage<User[]>('finan-ai-users', []);
     const [currentUser, setCurrentUser] = useLocalStorage<User | null>('finan-ai-currentUser', null);
     const [authView, setAuthView] = useState<AuthState>(currentUser ? 'authenticated' : 'login');
